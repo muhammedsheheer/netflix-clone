@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Player from "./pages/Player/Player";
@@ -7,14 +7,15 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "./AuthContext";
 
 function App() {
 	const navigate = useNavigate();
+	const { currentUser } = useContext(AuthContext);
 
 	useEffect(() => {
-		onAuthStateChanged(auth, async (user) => {
-			if (user) {
-				console.log("Logged in");
+		onAuthStateChanged(auth, async (currentUser) => {
+			if (currentUser) {
 				navigate("/");
 			} else {
 				navigate("/login");
